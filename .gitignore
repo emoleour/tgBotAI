@@ -6,3 +6,7 @@ venv/
 __pycache__/
 .DS_Store
 .ruff_cache/
+chroma.db/
+database/*.db
+database/*.sqlite
+.idea/
