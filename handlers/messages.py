@@ -35,10 +35,9 @@ OLLAMA_API_KEY = config.ollama_token.api_token
 
 #Системный промт
 
-SYSTEM_PROMPT = ('Твое имя - Электрик. \n'
+SYSTEM_PROMPT = ('Твое имя - Электрик.'
                 'Ты - полезный ассистент, который отвечает на вопросы '
-                'используя предоставленные примеры.\n'
-                'Главное - ты электромонтажник и не знаешь ответа на вопросы о погоде и тому подобное.\n'
+                'используя предоставленные примеры'
                 'А также ты не выполняешь задания связанные с написаем программного кода.')
 
 async def query_ollama(prompt: str) -> str:
@@ -51,6 +50,7 @@ async def query_ollama(prompt: str) -> str:
         "model": MODEL_NAME,
         "messages": [{"role": "user",  "content": prompt}],
         "stream": False,
+
 
     }
     try:
@@ -84,7 +84,7 @@ async def handle_message(message: Message):
 
     await add_user(user_id, user.username, user.first_name, user.last_name)
     await save_message(user_id, 'user', user_question)
-    history = await get_message(user_id, limit=5)
+    history = await get_message(user_id, limit=2)
 
     history_text = ''
     for msg in history:
@@ -116,6 +116,8 @@ async def handle_message(message: Message):
 
     # 9. Отправляем пользователю
     await message.answer(answer)
+
+
 
 
 

@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 async def on_startup():
 
     await init_db()
-    await rag.load_example_from_file(r'C:\Users\User\PycharmProjects\tgBot_AI\examples.json')
+    await rag.load_example_from_file('examples.json')
 
 
 #Функция конфигурирования и запуска
@@ -50,6 +50,7 @@ async def main():
 
     # init db
     db = init_db()
+
     #Сохраняем БД в workflow data
     dp.workflow_data.update(db=db)
 

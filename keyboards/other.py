@@ -3,6 +3,7 @@ import logging
 from aiogram import Router, types
 from aiogram.types import Message
 from aiogram.filters import Command, CommandStart
+from rag.rag import rag
 
 from database.database import add_user, get_user, save_message, get_message
 
@@ -34,3 +35,11 @@ async def command_help(message: Message):
 async def command_support(message: Message):
     await message.answer(text=f'1. Если бот не отвечает. - Возможно он не хочет :).\n'
                               f'2. По остальным вопросам связанным с техподдержкой обращаться: emoleour.mu@gmail.com')
+
+
+# для теста, возвращает ли модель ответы
+@other_router.message(Command(commands='test'))
+async def test_rag(message: Message):
+    user_question = 'Какой твой любимый цвет?'
+    examples = await rag.find_relevant_examples(user_question,n_results=3)
+    await message.answer(text=f'Найдено примеров: {len(examples)}\n{examples}')

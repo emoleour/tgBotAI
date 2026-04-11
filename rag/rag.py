@@ -128,17 +128,22 @@ class RAGHandler:
             return []
 
         # Извлекаем метаданные
-        examples = []
-        if results and 'documents' in results and results['documents']:
-            # results['documents'] — список списков метаданных для каждого запроса (у нас один запрос)
-            docs = results['documents'][0]
-            metas = results['metadatas'][0] if results.get('metadatas') else [{}] * len(docs)
+        if not results or not isinstance(results, dict):
+            return []
+        documents = results.get('documents')
+        metadatas = results.get('metadatas')
 
-            for i in range(len(docs)):
-                examples.append({
-                    'question': docs[i],
-                    'answer': metas[i].get('answer','') if i < len(metas) else ''
-                })
+        if documents is None or not documents[0]:
+            logger.debug('Поиск не вернул документы')
+            return []
+
+        examples = []
+        for i, doc in enumerate(documents[0]):
+            answer = ''
+            if metadatas and metadatas[0] and i < len(metadatas[0]):
+                answer = metadatas[0][i].get('answer','')
+            examples.append({'question': doc, 'answer': answer})
+        return examples
 
 
 rag = RAGHandler()
