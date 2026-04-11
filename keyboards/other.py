@@ -43,3 +43,7 @@ async def test_rag(message: Message):
     user_question = 'Какой твой любимый цвет?'
     examples = await rag.find_relevant_examples(user_question,n_results=3)
     await message.answer(text=f'Найдено примеров: {len(examples)}\n{examples}')
+
+@other_router.message(Command(commands='menu'))
+async def command_menu(message: Message):
+    await message.answer(text='f В Разработке...')
